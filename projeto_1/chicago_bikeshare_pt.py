@@ -3,11 +3,12 @@
 # Começando com os imports
 import csv
 import matplotlib.pyplot as plt
+from typing import List, Tuple
 
 # Vamos ler os dados como uma lista
 print("Lendo o documento...")
 with open("chicago.csv", "r") as file_read:
-    data_list = [{k: v for k, v in row.items()}
+    data_list: List = [{k: v for k, v in row.items()}
                  for row in csv.DictReader(file_read, skipinitialspace=True)]
     # reader = csv.DictReader(file_read)
     # data_list = list(reader)
@@ -53,16 +54,19 @@ for i in range(20):
 input("Aperte Enter para continuar...")
 # TAREFA 3
 # TODO: Crie uma função para adicionar as colunas(features) de uma lista em outra lista, na mesma ordem
-def column_to_list(data, index):
+
+
+def column_to_list(data: List, index: int) -> List:
     """
     Adiciona os valores de uma coluna, indicada pelo index, em outra lista e a retorna
     :param data: lista contendo os valores
     :param index: int indicando o index da coluna
     :return: lista com todos os valores da coluna indicada
     """
-    columns = list(data[0].keys())
+    columns: List = list(data[0].keys())
     column_list = []
-    # Dica: Você pode usar um for para iterar sobre as amostras, pegar a feature pelo seu índice, e dar append para uma lista
+    # Dica: Você pode usar um for para iterar sobre as amostras, pegar a feature pelo seu índice, e dar append para uma
+    # lista
     for sample in data:
         column_list.append(sample[columns[index]])
     return column_list
@@ -82,8 +86,8 @@ input("Aperte Enter para continuar...")
 # Agora sabemos como acessar as features, vamos contar quantos Male (Masculinos) e Female (Femininos) o dataset tem
 # TAREFA 4
 # TODO: Conte cada gênero. Você não deveria usar uma função parTODO isso.
-male = 0
-female = 0
+male: int = 0
+female: int = 0
 
 # Utilizando a função criada na tarefa anterior
 # male = column_to_list(data_list, -2).count("Male")
@@ -108,8 +112,11 @@ input("Aperte Enter para continuar...")
 # Por que nós não criamos uma função parTODO isso?
 # TAREFA 5
 # TODO: Crie uma função para contar os gêneros. Retorne uma lista.
-# Isso deveria retornar uma lista com [count_male, count_female] (exemplo: [10, 15] significa 10 Masculinos, 15 Femininos)
-def count_gender(data_list):
+# Isso deveria retornar uma lista com [count_male, count_female]
+# (exemplo: [10, 15] significa 10 Masculinos, 15 Femininos)
+
+
+def count_gender(data_list: List) -> List[int]:
     """
     Conta a quantidade de gêneros dada uma lista
     :param data_list: lista com os dados
@@ -117,8 +124,8 @@ def count_gender(data_list):
     """
     # male = column_to_list(data_list, -2).count("Male")
     # female = column_to_list(data_list, -2).count("Female")
-    male = 0
-    female = 0
+    male: int = 0
+    female: int = 0
 
     for sample in column_to_list(data_list, -2):
         if sample == "Male":
@@ -142,7 +149,9 @@ input("Aperte Enter para continuar...")
 # TAREFA 6
 # TODO: Crie uma função que pegue o gênero mais popular, e retorne este gênero como uma string.
 # Esperamos ver "Masculino", "Feminino", ou "Igual" como resposta.
-def most_popular_gender(data_list):
+
+
+def most_popular_gender(data_list: List) -> str:
     """
     Verifica qual o gênero mais popular
     :param data_list: lista com os dados
@@ -168,10 +177,10 @@ assert most_popular_gender(data_list) == "Masculino", "TAREFA 6: Resultado de re
 # -----------------------------------------------------
 
 # Se tudo está rodando como esperado, verifique este gráfico!
-gender_list = column_to_list(data_list, -2)
-types = ["Male", "Female"]
-quantity = count_gender(data_list)
-y_pos = list(range(len(types)))
+gender_list: List = column_to_list(data_list, -2)
+types: List[str] = ["Male", "Female"]
+quantity: List = count_gender(data_list)
+y_pos: List = list(range(len(types)))
 plt.bar(y_pos, quantity)
 plt.ylabel('Quantidade')
 plt.xlabel('Gênero')
@@ -183,12 +192,12 @@ input("Aperte Enter para continuar...")
 # TAREFA 7
 # TODO: Crie um gráfico similar para user_types. Tenha certeza que a legenda está correta.
 print("\nTAREFA 7: Verifique o gráfico!")
-user_type_list = column_to_list(data_list, -3)
-types = list(set(user_type_list))
+user_type_list: List = column_to_list(data_list, -3)
+types: List = list(set(user_type_list))
 # quantity = [user_type_list.count(item_type) for item_type in types]
-quantity =[]
+quantity: List = []
 for type in types:
-    count = 0
+    count: int = 0
     for user_type in user_type_list:
         if type == user_type:
             count += 1
@@ -200,7 +209,6 @@ plt.xlabel('Tipo de Usuário')
 plt.xticks(y_pos, types)
 plt.title('Quantidade por Tipo de Usuário')
 plt.show(block=True)
-
 
 input("Aperte Enter para continuar...")
 # TAREFA 8
@@ -220,15 +228,15 @@ input("Aperte Enter para continuar...")
 # TAREFA 9
 # TODO: Ache a duração de viagem Mínima, Máxima, Média, e Mediana.
 # Você não deve usar funções prontas parTODO isso, como max() e min().
-trip_duration_list = column_to_list(data_list, 2)
-float_trip_duration_list = list(map(float, trip_duration_list))
-min_trip = 0.
-max_trip = 0.
-mean_trip = 0.
-median_trip = 0.
+trip_duration_list: List = column_to_list(data_list, 2)
+float_trip_duration_list: List = list(map(float, trip_duration_list))
+min_trip: float = 0.
+max_trip: float = 0.
+mean_trip: float = 0.
+median_trip: float = 0.
 
 
-def trip_limits(data, min_time, max_time):
+def trip_limits(data: List, min_time: float, max_time: float) -> Tuple[float, float]:
     """
     Calcula a duração minima e máxima de viagem
     :param data: lista contendo dados
@@ -246,31 +254,31 @@ def trip_limits(data, min_time, max_time):
     return min_time, max_time
 
 
-def trip_mean(data):
+def trip_mean(data: List) -> float:
     """
     Calcula a duração média de viagem
     :param data: lista contendo dados
     :return: retorna a duração média de viagem
     """
-    time_sum = 0
-    size = len(data)
+    time_sum: float = 0.
+    size: int = len(data)
     for time in data:
         time_sum += time
     return time_sum/size
 
 
-def trip_median(data):
+def trip_median(data: List) -> float:
     """
     Calcula a duração mediana de viagem
     :param data: lista contendo dados
     :return: retorna a duração mediana de viagem
     """
-    sorted_data = sorted(data)
-    size = len(sorted_data)
+    sorted_data: List = sorted(data)
+    size: int = len(sorted_data)
     if size % 2 == 1:
         return sorted_data[size//2]
     else:
-        i = size//2
+        i: int = size//2
         return sorted_data[i - 1] + sorted_data[i]/2
 
 
@@ -295,8 +303,8 @@ input("Aperte Enter para continuar...")
 # def count_start_station(data):
 #     return set(data)
 
-start_stations_list = column_to_list(data_list, 3)
-start_stations = set(start_stations_list)
+start_stations_list: List = column_to_list(data_list, 3)
+start_stations: Tuple = set(start_stations_list)
 
 print("\nTAREFA 10: Imprimindo as start stations:")
 print(len(start_stations))
@@ -324,7 +332,7 @@ input("Aperte Enter para continuar...")
 # TODO: Crie uma função para contar tipos de usuários, sem definir os tipos
 # para que nós possamos usar essa função com outra categoria de dados.
 print("Você vai encarar o desafio? (yes ou no)")
-answer = "yes"
+answer: str = "yes"
 
 
 def count_items(column_list):
@@ -333,8 +341,8 @@ def count_items(column_list):
     :param column_list: lista dos dados
     :return: retorna o tipo de dado e sua quantidade
     """
-    item_types = []
-    count_items = []
+    item_types: List = []
+    count_items: List[int] = []
 
     for type in set(column_list):
         item_types.append(type)
