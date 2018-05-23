@@ -115,8 +115,16 @@ def count_gender(data_list):
     :param data_list: lista com os dados
     :return: retorna uma lista com a quantidade de cada gênero
     """
-    male = column_to_list(data_list, -2).count("Male")
-    female = column_to_list(data_list, -2).count("Female")
+    # male = column_to_list(data_list, -2).count("Male")
+    # female = column_to_list(data_list, -2).count("Female")
+    male = 0
+    female = 0
+
+    for sample in column_to_list(data_list, -2):
+        if sample == "Male":
+            male += 1
+        elif sample == "Female":
+            female += 1
     return [male, female]
 
 
@@ -140,9 +148,11 @@ def most_popular_gender(data_list):
     :param data_list: lista com os dados
     :return: retorna uma string com o gênero mais popular
     """
-    if count_gender(data_list)[0] > count_gender(data_list)[1]:
+    male = count_gender(data_list)[0]
+    female = count_gender(data_list)[1]
+    if male > female:
         answer = "Masculino"
-    elif count_gender(data_list)[0] < count_gender(data_list)[1]:
+    elif male < female:
         answer = "Feminino"
     else:
         answer = "Igual"
@@ -175,7 +185,14 @@ input("Aperte Enter para continuar...")
 print("\nTAREFA 7: Verifique o gráfico!")
 user_type_list = column_to_list(data_list, -3)
 types = list(set(user_type_list))
-quantity = [user_type_list.count(item_type) for item_type in types]
+# quantity = [user_type_list.count(item_type) for item_type in types]
+quantity =[]
+for type in types:
+    count = 0
+    for user_type in user_type_list:
+        if type == user_type:
+            count += 1
+    quantity.append(count)
 y_pos = list(range(len(types)))
 plt.bar(y_pos, quantity)
 plt.ylabel('Quantidade')
@@ -275,14 +292,11 @@ input("Aperte Enter para continuar...")
 # TAREFA 10
 # Gênero é fácil porque nós temos apenas algumas opções. E quanto a start_stations? Quantas opções ele tem?
 # TODO: Verifique quantos tipos de start_stations nós temos, usando set()
-
-
-def count_start_station(data):
-    return set(data)
-
+# def count_start_station(data):
+#     return set(data)
 
 start_stations_list = column_to_list(data_list, 3)
-start_stations = count_start_station(start_stations_list)
+start_stations = set(start_stations_list)
 
 print("\nTAREFA 10: Imprimindo as start stations:")
 print(len(start_stations))
@@ -326,7 +340,11 @@ def count_items(column_list):
         item_types.append(type)
 
     for item_type in item_types:
-        count_items.append(column_list.count(item_type))
+        count = 0
+        for row in column_list:
+            if row == item_type:
+                count += 1
+        count_items.append(count)
 
     return item_types, count_items
 
